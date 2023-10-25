@@ -1,38 +1,48 @@
 #!/usr/bin/python3
-"""# Define a route that takes a dynamic parameter 'text' 
-(with a default value of "is cool") and displays "Python" 
-followed by the value of 'text' (replace underscore _ symbols with a space)
-"""
+""" Starts Flask web app """
 from flask import Flask
 from flask import render_template
 app = Flask(__name__)
 
 
-@app.route("/", strict_slashes=False)
-def hello_hbnb_route():
+@app.route('/', strict_slashes=False)
+def hello_hbn():
+    """ Returns Hello HBNB! """
     return "Hello HBNB!"
 
-@app.route("/hbnb", strict_slashes=False)
-def hbnb_route():
+
+@app.route('/hbnb', strict_slashes=False)
+def hbnb():
+    """ Returns HBNB """
     return "HBNB"
 
-@app.route("/c/<text>", strict_slashes=False)
+
+@app.route('/c/<text>', strict_slashes=False)
 def c_route(text):
-    return "C {}".format(text.replace('_', ' '))
+    """ Returns C and value of text """
+    text = text.replace('_', ' ')
+    return "C {}".format(text)
 
-@app.route("/python/", strict_slashes=False)
-@app.route("/python/<text>", strict_slashes=False)
-def python_route(text='is cool'):
-    return "Python {}".format(text.replace('_', ' '))
 
-@app.route("/number/<int:n>", strict_slashes=False)
+@app.route('/python', strict_slashes=False)
+@app.route('/python/<text>', strict_slashes=False)
+def python_route(text="is cool"):
+    """ Returns Python and vale of the text """
+    text = text.replace('_', ' ')
+    return "Python {}".format(text)
+
+
+@app.route('/number/<int:n>', strict_slashes=False)
 def number_route(n):
+    """ Returns n is a number if only n is an integer """
     return "{} is a number".format(n)
 
-# Render template
-@app.route("/number_template/<int:n>", strict_slashes=False)
-def int_template(n):
-    return render_template('5-number.html', number=n)
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+@app.route('/number_template/<int:n>', strict_slashes=False)
+def number_template(n):
+    """ Returns HTML page only if only n is an integer """
+    return render_template("5-number.html", n=n)
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
